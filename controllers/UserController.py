@@ -15,7 +15,7 @@ class GetUser(Resource):
                                   "sysuser_nama,sysuser_namalengkap,sysuser_email FROM sys_user "
                                   "INNER JOIN sys_role ON sys_user.sysrole_kode = sys_role.sysrole_kode")
                 result = [dict((data.description[i][0], value)
-                               for i, value in enumerate(row)) for row in data.fetchall()]
+                               for i, value in enumerate(row)) for row in data.fetchOne()]
                 return utility.give_response("00", "GET USER SUKSES", result)
         except Exception as e:
             return utility.give_response("01", str(e))
