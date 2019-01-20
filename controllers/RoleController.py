@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from connection import select, db_session, commit
+from connection import db_session, commit
 import utility
 from models.sys_role import SysRole
 
@@ -11,7 +11,7 @@ class GetRole(Resource):
     def get():
         try:
             with db_session:
-                data = select(row for row in SysRole)
+                data = SysRole.select()
                 result = [row.to_dict() for row in data]
                 return utility.give_response("00", "GET ROLE SUKSES", result)
         except Exception as e:
