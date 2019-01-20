@@ -5,6 +5,8 @@ from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRo
 import utility
 import os
 
+from controllers.UserController import GetUser
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -28,6 +30,8 @@ api.add_resource(GetRole, '/getRole')
 api.add_resource(InsertRole, '/insertRole')
 api.add_resource(UpdateRole, '/updateRole/<string:sysrole_kode>')
 api.add_resource(DeleteRole, '/deleteRole/<string:sysrole_kode>')
+api.add_resource(GetUser, '/getUser')
+
 
 if __name__ == '__main__':
     app.run()
