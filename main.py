@@ -2,6 +2,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from flask_restful import Api, Resource
 from connection import db
+from controllers.ModulController import GetModul, InsertModul, UpdateModul, DeleteModul
 from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRole
 import utility
 import os
@@ -30,12 +31,16 @@ def page_not_found(e):
 api.add_resource(GetVersion, '/')
 api.add_resource(GetRole, '/getRole')
 api.add_resource(GetUser, '/getUser')
+api.add_resource(GetModul, '/getModul')
 api.add_resource(InsertRole, '/insertRole')
 api.add_resource(InsertUser, '/insertUser')
+api.add_resource(InsertModul, '/insertModul')
 api.add_resource(UpdateRole, '/updateRole/<string:sysrole_kode>')
 api.add_resource(UpdateUser, '/updateUser/<int:sysuser_id>')
+api.add_resource(UpdateModul, '/updateModul/<string:sysmodul_kode>')
 api.add_resource(DeleteRole, '/deleteRole/<string:sysrole_kode>')
 api.add_resource(DeleteUser, '/deleteUser/<int:sysuser_id>')
+api.add_resource(DeleteModul, '/deleteModul/<string:sysmodul_kode>')
 
 if __name__ == '__main__':
     app.run()
