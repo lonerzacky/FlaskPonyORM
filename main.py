@@ -1,6 +1,7 @@
 from flask import Flask
 from dotenv import load_dotenv
 from flask_restful import Api, Resource
+from connection import db
 from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRole
 import utility
 import os
@@ -8,6 +9,7 @@ import os
 from controllers.UserController import GetUser
 
 load_dotenv()
+db.generate_mapping(create_tables=False)
 
 app = Flask(__name__)
 api = Api(app)
@@ -31,7 +33,6 @@ api.add_resource(InsertRole, '/insertRole')
 api.add_resource(UpdateRole, '/updateRole/<string:sysrole_kode>')
 api.add_resource(DeleteRole, '/deleteRole/<string:sysrole_kode>')
 api.add_resource(GetUser, '/getUser')
-
 
 if __name__ == '__main__':
     app.run()
