@@ -6,7 +6,7 @@ from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRo
 import utility
 import os
 
-from controllers.UserController import GetUser
+from controllers.UserController import GetUser, InsertUser, UpdateUser, DeleteUser
 
 load_dotenv()
 db.generate_mapping(create_tables=False)
@@ -29,10 +29,13 @@ def page_not_found(e):
 
 api.add_resource(GetVersion, '/')
 api.add_resource(GetRole, '/getRole')
-api.add_resource(InsertRole, '/insertRole')
-api.add_resource(UpdateRole, '/updateRole/<string:sysrole_kode>')
-api.add_resource(DeleteRole, '/deleteRole/<string:sysrole_kode>')
 api.add_resource(GetUser, '/getUser')
+api.add_resource(InsertRole, '/insertRole')
+api.add_resource(InsertUser, '/insertUser')
+api.add_resource(UpdateRole, '/updateRole/<string:sysrole_kode>')
+api.add_resource(UpdateUser, '/updateUser/<int:sysuser_id>')
+api.add_resource(DeleteRole, '/deleteRole/<string:sysrole_kode>')
+api.add_resource(DeleteUser, '/deleteUser/<int:sysuser_id>')
 
 if __name__ == '__main__':
     app.run()
