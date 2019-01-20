@@ -9,6 +9,3 @@ class SysUser(db.Entity):
     sysuser_passw = Required(str)
     sysuser_namalengkap = Required(str)
     sysuser_email = Required(str)
-
-
-db.generate_mapping(create_tables=True)
