@@ -1,8 +1,8 @@
+import utility
 from flask import request
 from flask_restful import Resource
 from connection import db_session, db, commit
 from models.sys_user import SysUser
-import utility
 
 
 # noinspection SqlDialectInspection,SqlNoDataSourceInspection

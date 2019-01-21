@@ -1,3 +1,5 @@
+import utility
+import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_restful import Api, Resource
@@ -6,9 +8,6 @@ from controllers.AuthController import VerifyLogin, ChangePassword
 from controllers.ModulController import GetModul, InsertModul, UpdateModul, DeleteModul
 from controllers.RmodulController import GetRmodul, InsertRModul, DeleteRModul
 from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRole
-import utility
-import os
-
 from controllers.UserController import GetUser, InsertUser, UpdateUser, DeleteUser
 
 load_dotenv()

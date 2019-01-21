@@ -1,11 +1,7 @@
 import datetime
 import json
-
 from flask import request
-
 from connection import db, commit, db_session
-
-# noinspection SqlResolve,SqlDialectInspection,SqlNoDataSourceInspection
 from models.logservice import Logservice
 
 

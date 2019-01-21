@@ -1,7 +1,7 @@
+import utility
 from flask import request
 from flask_restful import Resource
 from connection import db_session, commit
-import utility
 from models.sys_role import SysRole
 
 

@@ -1,9 +1,9 @@
+import queryUtils
+import utility
 from flask import request
 from flask_restful import Resource
 from models.sys_user import SysUser
 from connection import db_session, select, commit
-import queryUtils
-import utility
 
 
 # noinspection PyTypeChecker
