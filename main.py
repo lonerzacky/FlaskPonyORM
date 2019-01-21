@@ -49,4 +49,4 @@ api.add_resource(VerifyLogin, '/verifyLogin')
 api.add_resource(ChangePassword, '/changePassword')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=os.getenv('APP_HOST'))
