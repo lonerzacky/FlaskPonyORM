@@ -7,5 +7,5 @@ class SysModul(db.Entity):
     sysmodul_nama = Required(str)
     sysmodul_url = Required(str)
     sysmodul_icon = Required(str)
-    sysmodul_parent = Optional(str,nullable=True)
+    sysmodul_parent = Optional(str, nullable=True)
     sysmodul_no_urut = Required(int)
