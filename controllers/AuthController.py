@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from models.sys_user import SysUser
-from connection import db_session, select
+from connection import db_session, select, commit
 import queryUtils
 import utility
 
@@ -21,5 +21,25 @@ class VerifyLogin(Resource):
                     return utility.give_response("00", "LOGIN SUKSES", result_row)
                 else:
                     return utility.give_response("01", "LOGIN GAGAL")
+        except Exception as e:
+            return utility.give_response("01", str(e))
+
+
+class ChangePassword(Resource):
+    @staticmethod
+    def post():
+        try:
+            with db_session:
+                sysuser_id = request.form["sysuser_id"]
+                old_password_from_data = queryUtils.get_old_password(sysuser_id)
+                password_lama = utility.create_hash(request.form["password_lama"])
+                password_baru = utility.create_hash(request.form["password_baru"])
+                if password_lama == old_password_from_data:
+                    sys_user = SysUser[sysuser_id]
+                    sys_user.set(sysuser_passw=password_baru)
+                    commit()
+                    return utility.give_response("00", "UBAH PASSWORD SUKSES")
+                else:
+                    return utility.give_response("01", "PASSWORD LAMA TIDAK SAMA")
         except Exception as e:
             return utility.give_response("01", str(e))

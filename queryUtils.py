@@ -11,3 +11,10 @@ def get_info_user(sysuser_nama, sysuser_passw):
     result = [dict((data.description[i][0], value)
                    for i, value in enumerate(row)) for row in data.fetchall()]
     return result
+
+# noinspection SqlResolve,SqlDialectInspection,SqlNoDataSourceInspection
+def get_old_password(sysuser_id):
+    data = db.execute("SELECT sysuser_passw FROM sys_user WHERE sysuser_id=$sysuser_id",
+                      globals={'sysuser_id': sysuser_id})
+    result = data.fetchone()
+    return result[0]
