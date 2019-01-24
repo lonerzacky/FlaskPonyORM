@@ -1,7 +1,9 @@
 import utility
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required)
+from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required,
+                                get_jwt_identity, get_raw_jwt)
 from connection import db_session, commit, select, delete
+from models.jti import Jti
 from models.jwt import Jwt
 
 parser = reqparse.RequestParser()
@@ -63,20 +65,33 @@ class UserLogin(Resource):
 
 class UserLogoutAccess(Resource):
     @staticmethod
+    @jwt_required
     def post():
-        return {'message': 'User logout'}
+        jti = get_raw_jwt()['jti']
+        with db_session:
+            Jti(jti=jti)
+            commit()
+        return {'message': 'Access token has been revoked'}
 
 
 class UserLogoutRefresh(Resource):
     @staticmethod
+    @jwt_refresh_token_required
     def post():
-        return {'message': 'User logout'}
+        jti = get_raw_jwt()['jti']
+        with db_session:
+            Jti(jti=jti)
+            commit()
+            return {'message': 'Refresh token has been revoked'}
 
 
 class TokenRefresh(Resource):
     @staticmethod
+    @jwt_refresh_token_required
     def post():
-        return {'message': 'Token refresh'}
+        current_user = get_jwt_identity()
+        access_token = create_access_token(identity=current_user)
+        return utility.give_response("00", "Success Refresh Token", {'access_token': access_token})
 
 
 # noinspection PyTypeChecker

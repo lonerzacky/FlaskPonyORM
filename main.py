@@ -13,6 +13,7 @@ from controllers.ModulController import GetModul, InsertModul, UpdateModul, Dele
 from controllers.RmodulController import GetRmodul, InsertRModul, DeleteRModul
 from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRole
 from controllers.UserController import GetUser, InsertUser, UpdateUser, DeleteUser
+from models.jti import Jti
 
 load_dotenv()
 db.generate_mapping(create_tables=False)
@@ -22,6 +23,8 @@ api = Api(app)
 app.config['JSON_SORT_KEYS'] = False
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['PROPAGATE_EXCEPTIONS'] = True
+app.config['JWT_BLACKLIST_ENABLED'] = True
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 jwt = JWTManager(app)
 
 
@@ -34,6 +37,12 @@ class GetVersion(Resource):
 @app.errorhandler(404)
 def page_not_found(e):
     return utility.give_response("01", str(e))
+
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    data_jti = decrypted_token['jti']
+    return Jti.is_jti_blacklisted(data_jti)
 
 
 api.add_resource(GetVersion, '/')
