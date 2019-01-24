@@ -1,7 +1,6 @@
+import utility
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required)
-
-import utility
 from connection import db_session, commit, select, delete
 from models.jwt import Jwt
 

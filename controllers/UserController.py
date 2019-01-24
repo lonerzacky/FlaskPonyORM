@@ -1,6 +1,5 @@
-from flask_jwt_extended import jwt_required
-
 import utility
+from flask_jwt_extended import jwt_required
 from flask import request
 from flask_restful import Resource
 from connection import db_session, db, commit

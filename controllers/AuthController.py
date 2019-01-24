@@ -1,7 +1,6 @@
-from flask_jwt_extended import jwt_required
-
 import queryUtils
 import utility
+from flask_jwt_extended import jwt_required
 from flask import request
 from flask_restful import Resource
 from models.sys_user import SysUser
