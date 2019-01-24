@@ -1,3 +1,5 @@
+from flask_jwt_extended import jwt_required
+
 import queryUtils
 import utility
 from flask import request
@@ -9,6 +11,7 @@ from connection import db_session, select, commit
 # noinspection PyTypeChecker
 class VerifyLogin(Resource):
     @staticmethod
+    @jwt_required
     def post():
         try:
             with db_session:
@@ -27,6 +30,7 @@ class VerifyLogin(Resource):
 
 class ChangePassword(Resource):
     @staticmethod
+    @jwt_required
     def post():
         try:
             with db_session:

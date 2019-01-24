@@ -1,3 +1,5 @@
+from flask_jwt_extended import jwt_required
+
 import utility
 from flask import request
 from flask_restful import Resource
@@ -8,6 +10,7 @@ from models.sys_role import SysRole
 # noinspection PyTypeChecker
 class GetRole(Resource):
     @staticmethod
+    @jwt_required
     def get():
         try:
             with db_session:
@@ -20,6 +23,7 @@ class GetRole(Resource):
 
 class InsertRole(Resource):
     @staticmethod
+    @jwt_required
     def post():
         try:
             with db_session:
@@ -34,6 +38,7 @@ class InsertRole(Resource):
 
 class UpdateRole(Resource):
     @staticmethod
+    @jwt_required
     def put(sysrole_kode):
         try:
             with db_session:
@@ -47,6 +52,7 @@ class UpdateRole(Resource):
 
 class DeleteRole(Resource):
     @staticmethod
+    @jwt_required
     def delete(sysrole_kode):
         try:
             with db_session:

@@ -1,3 +1,5 @@
+from flask_jwt_extended import JWTManager
+
 import utility
 import os
 from flask import Flask
@@ -18,6 +20,9 @@ db.generate_mapping(create_tables=False)
 app = Flask(__name__)
 api = Api(app)
 app.config['JSON_SORT_KEYS'] = False
+app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['PROPAGATE_EXCEPTIONS'] = True
+jwt = JWTManager(app)
 
 
 class GetVersion(Resource):

@@ -1,3 +1,5 @@
+from flask_jwt_extended import jwt_required
+
 import utility
 from flask import request
 from flask_restful import Resource
@@ -7,6 +9,7 @@ from models.sys_rmodul import SysRmodul
 
 class GetRmodul(Resource):
     @staticmethod
+    @jwt_required
     def get():
         try:
             with db_session:
@@ -19,6 +22,7 @@ class GetRmodul(Resource):
 
 class InsertRModul(Resource):
     @staticmethod
+    @jwt_required
     def post():
         try:
             with db_session:
@@ -33,6 +37,7 @@ class InsertRModul(Resource):
 
 class DeleteRModul(Resource):
     @staticmethod
+    @jwt_required
     def post():
         try:
             with db_session:

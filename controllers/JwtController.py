@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required)
 
 import utility
-from connection import db_session, commit, select, delete, db
+from connection import db_session, commit, select, delete
 from models.jwt import Jwt
 
 parser = reqparse.RequestParser()
@@ -22,9 +23,16 @@ class UserRegistration(Resource):
                 if find_exist == 1:
                     return utility.give_response("01", "User Exist", username)
                 else:
-                    c = Jwt(username=username, password=password)
+                    Jwt(username=username, password=password)
                     commit()
-                    return utility.give_response("00", "User Created", c.to_dict())
+                    access_token = create_access_token(identity=data['username'])
+                    refresh_token = create_refresh_token(identity=data['username'])
+                    data_jwt = {
+                        'message': 'User {} was created'.format(data['username']),
+                        'access_token': access_token,
+                        'refresh_token': refresh_token
+                    }
+                    return utility.give_response("00", data_jwt)
         except Exception as e:
             return utility.give_response("01", str(e))
 
@@ -38,9 +46,16 @@ class UserLogin(Resource):
             with db_session:
                 username = data["username"]
                 password = data["password"]
-                if Jwt.verify_hash(password,
-                                   '$pbkdf2-sha256$29000$IGRMSekdI8QYYwxh7J3Tmg$TtJEYh23BO7dVScJFG.vpMyL4f2l7SfYfa34dmzIbio'):
-                    return utility.give_response("00", 'Logged in as {}'.format(data["username"]), data)
+                data_user = Jwt.get(username=username)
+                if Jwt.verify_hash(password, data_user.password):
+                    access_token = create_access_token(identity=data['username'])
+                    refresh_token = create_refresh_token(identity=data['username'])
+                    data_jwt = {
+                        'message': 'Logged in as {}'.format(data_user.username),
+                        'access_token': access_token,
+                        'refresh_token': refresh_token
+                    }
+                    return utility.give_response("00", data_jwt)
                 else:
                     return utility.give_response("01", "Wrong credentials")
         except Exception as e:
@@ -65,6 +80,7 @@ class TokenRefresh(Resource):
         return {'message': 'Token refresh'}
 
 
+# noinspection PyTypeChecker
 class AllUsers(Resource):
     @staticmethod
     def get():
@@ -88,7 +104,6 @@ class AllUsers(Resource):
 
 class SecretResource(Resource):
     @staticmethod
+    @jwt_required
     def get():
-        return {
-            'answer': 42
-        }
+        return dict(answer=42)

@@ -1,3 +1,5 @@
+from flask_jwt_extended import jwt_required
+
 import utility
 from flask import request
 from flask_restful import Resource
@@ -8,6 +10,7 @@ from models.sys_user import SysUser
 # noinspection SqlDialectInspection,SqlNoDataSourceInspection
 class GetUser(Resource):
     @staticmethod
+    @jwt_required
     def get():
         try:
             with db_session:
@@ -23,6 +26,7 @@ class GetUser(Resource):
 
 class InsertUser(Resource):
     @staticmethod
+    @jwt_required
     def post():
         try:
             with db_session:
@@ -44,6 +48,7 @@ class InsertUser(Resource):
 
 class UpdateUser(Resource):
     @staticmethod
+    @jwt_required
     def put(sysuser_id):
         try:
             with db_session:
@@ -61,6 +66,7 @@ class UpdateUser(Resource):
 
 class DeleteUser(Resource):
     @staticmethod
+    @jwt_required
     def delete(sysuser_id):
         try:
             with db_session:
