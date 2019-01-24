@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from flask_restful import Api, Resource
 from connection import db
 from controllers.AuthController import VerifyLogin, ChangePassword
+from controllers.JwtController import UserRegistration, UserLogin, UserLogoutAccess, UserLogoutRefresh, TokenRefresh, \
+    AllUsers, SecretResource
 from controllers.ModulController import GetModul, InsertModul, UpdateModul, DeleteModul
 from controllers.RmodulController import GetRmodul, InsertRModul, DeleteRModul
 from controllers.RoleController import GetRole, InsertRole, UpdateRole, DeleteRole
@@ -47,6 +49,14 @@ api.add_resource(DeleteModul, '/deleteModul/<string:sysmodul_kode>')
 api.add_resource(DeleteRModul, '/deleteRModul')
 api.add_resource(VerifyLogin, '/verifyLogin')
 api.add_resource(ChangePassword, '/changePassword')
+
+api.add_resource(UserRegistration, '/registration')
+api.add_resource(UserLogin, '/login')
+api.add_resource(UserLogoutAccess, '/logout/access')
+api.add_resource(UserLogoutRefresh, '/logout/refresh')
+api.add_resource(TokenRefresh, '/token/refresh')
+api.add_resource(AllUsers, '/users')
+api.add_resource(SecretResource, '/secret')
 
 if __name__ == '__main__':
     app.run(host=os.getenv('APP_HOST'))
